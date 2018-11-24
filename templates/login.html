@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+    <form class="form-signin"  method="POST" enctype="multipart/form-data" action="">
+      {{ context.form.hidden_tag() }}
+      <fieldset class="form-group text-left">
+        <legend class="border-bottom mb-4 text-center">Please Login</legend>
+
+        <div class="form-group">
+
+          {% if context.form.email.errors %}
+            {{ context.form.email(class="form-control is-invalid",placeholder="Email Address") }}
+            <div class="invalid-feedback">
+
+              {% for error in context.form.email.errors  %}
+                <span> {{ error }}</span>
+              {%endfor%}
+
+            </div>
+            {% else %}
+
+            {{ context.form.email(class="form-control",placeholder="Email Address") }}
+
+          {% endif %}
+        </div>
+
+        <div class="form-group">
+
+          {% if context.form.password.errors %}
+            {{ context.form.password(class="form-control is-invalid",placeholder="Password") }}
+            <div class="invalid-feedback">
+
+              {% for error in context.form.password.errors  %}
+                <span> {{ error }}</span>
+              {%endfor%}
+
+            </div>
+            {% else %}
+
+            {{ context.form.password(class="form-control",placeholder="Password") }}
+          {% endif %}
+        </div>
+        <div class="form-check">
+          {{ context.form.remember(class="form-check-input")}}
+          {{ context.form.remember.label(class="form-check-label")}}
+        </div>
+      </fieldset>
+    <div class="form-group">
+      {{ context.form.submit(class="btn btn-outline-info") }}
+    </div>
+    <small class="text-muted ml-2">
+      <a class="ml-2" href="{{ url_for('register') }}">Forgot Password?</a>
+    </small>
+    </form>
+    <div class="border-top pt-3">
+      <small class="text-muted">
+        Don't Have An Account? <a class="ml-2" href="{{ url_for('register') }}">Register</a>
+      </small>
+    </div>
+
+  {% endblock %}
