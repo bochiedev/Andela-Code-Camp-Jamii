@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
-
 
 
 
@@ -18,3 +17,14 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember = BooleanField('Remember Me')
     submit = SubmitField('Login')
+
+class BusinessForm(FlaskForm):
+    business_name = StringField('Business Name', validators=[DataRequired()])
+    business_description = TextAreaField('Business Description', validators=[DataRequired()])
+    business_location = StringField('Location', validators=[DataRequired()])
+    business_category = SelectField(u'Category', choices=[('aim', 'AIM'), ('msn', 'MSN')], validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class BusinessCategoryForm(FlaskForm):
+    category_name = StringField('Business Name', validators=[DataRequired()])
+    submit = SubmitField('Create')

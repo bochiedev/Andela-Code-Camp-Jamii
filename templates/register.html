@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <form class="form-signin"  method="POST" enctype="multipart/form-data" action="">
+    <form class="form-signin text-center bg-dark mt-5 rounded"  method="POST" enctype="multipart/form-data" action="">
       {{ context.form.hidden_tag() }}
 
       <fieldset class="form-group text-left">
@@ -83,12 +83,12 @@
     <div class="form-group">
       {{ context.form.submit(class="btn btn-outline-info") }}
     </div>
-    </form>
-
-    <div class="border-top pt-3">
+    <div class="border-top pt-3 text-center">
       <small class="text-muted">
         Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Login</a>
       </small>
     </div>
+    </form>
+
 
     {% endblock %}

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+
+<div class="container ">
+
+  <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded box-shadow bg-info">
+        <div class="lh-100">
+          <h6 class="mb-0 text-white lh-100">Create New Business</h6>
+
+        </div>
+      </div>
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+          <form class="form-signin text-center mt-5 rounded"  method="POST" enctype="multipart/form-data" action="/category">
+            {{ context.form.hidden_tag() }}
+
+            <fieldset class="form-group text-left">
+
+            <div class="form-group">
+
+              {% if context.category_form.category_name.errors %}
+                {{ context.category_form.category_name(class="form-control is-invalid",placeholder="Name") }}
+                <div class="invalid-feedback">
+
+                  {% for error in context.category_form.category_name.errors  %}
+                    <span> {{ error }}</span>
+                  {%endfor%}
+
+                </div>
+                {% else %}
+
+                {{ context.category_form.category_name(class="form-control",placeholder="Name") }}
+
+              {% endif %}
+
+
+            </div>
+            </fieldset>
+          <div class="form-group ">
+            {{ context.category_form.submit(class="btn btn-outline-info btn-block") }}
+          </div>
+          </form>
+          <form class="form-signin text-center mt-5 rounded"  method="POST" enctype="multipart/form-data" action="">
+            {{ context.form.hidden_tag() }}
+
+            <fieldset class="form-group text-left">
+
+            <div class="form-group">
+
+              {% if context.form.business_name.errors %}
+                {{ context.form.business_name(class="form-control is-invalid",placeholder="Name") }}
+                <div class="invalid-feedback">
+
+                  {% for error in context.form.business_name.errors  %}
+                    <span> {{ error }}</span>
+                  {%endfor%}
+
+                </div>
+                {% else %}
+
+                {{ context.form.business_name(class="form-control",placeholder="Name") }}
+
+              {% endif %}
+
+
+            </div>
+
+            <div class="form-group">
+
+              {% if context.form.business_category.errors %}
+                {{ context.form.business_category(class="form-control is-invalid") }}
+                <div class="invalid-feedback">
+
+                  {% for error in context.form.business_category.errors  %}
+                    <span> {{ error }}</span>
+                  {%endfor%}
+
+                </div>
+                {% else %}
+
+                {{ context.form.business_category(class="form-control") }}
+
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+
+              {% if context.form.business_location.errors %}
+                {{ context.form.business_location(class="form-control is-invalid",placeholder="Location") }}
+                <div class="invalid-feedback">
+
+                  {% for error in context.form.business_location.errors  %}
+                    <span> {{ error }}</span>
+                  {%endfor%}
+
+                </div>
+                {% else %}
+
+                {{ context.form.business_location(class="form-control",placeholder="Location") }}
+              {% endif %}
+            </div>
+
+            <div class="form-group">
+
+              {% if context.form.business_description.errors %}
+                {{ context.form.business_description(class="form-control is-invalid",placeholder="Business Description") }}
+                <div class="invalid-feedback">
+
+                  {% for error in context.form.business_description.errors  %}
+                    <span> {{ error }}</span>
+                  {%endfor%}
+
+                </div>
+                {% else %}
+
+                {{ context.form.business_description(class="form-control",placeholder="Business Description") }}
+
+              {% endif %}
+            </div>
+            </fieldset>
+          <div class="form-group ">
+            {{ context.form.submit(class="btn btn-outline-info btn-block") }}
+          </div>
+          </form>
+
+        </div>
+    </div>
+
+
+
+{% endblock %}
