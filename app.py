@@ -222,6 +222,11 @@ def BusinessDetail(id):
 
     return render_template('business_details.html', context=context)
 
+def addNumber(no_1,no_2):
+    add = no_1+no_2
+    return add
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
