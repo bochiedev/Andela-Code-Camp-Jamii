@@ -3,11 +3,9 @@
 {% block content %}
 
   <h1>Businesses</h1>
-  {% for business in context.business %}
-  {{business.name}}
-  {{business.id}}
+  {{context.business.name}}
+  {{context.business.id}}
 
-  {% endfor %}
 
 
 
