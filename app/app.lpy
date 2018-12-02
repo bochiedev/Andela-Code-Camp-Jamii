@@ -58,7 +58,7 @@ class Businesscategory(db.Model):
     name = db.Column(db.String(20), unique=True, nullable=False)
 
     def __repr__(self):
-        return f"User('{self.name}')"
+        return f"Businesscategory('{self.name}')"
 
 
 class Business(db.Model):
@@ -74,6 +74,18 @@ class Business(db.Model):
 
     def __repr__(self):
         return f"Business('{self.name}, {self.owner}, {self.location}')"
+#
+# class BusinessReviews(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(20), nullable=False)
+#     rating = db.Column(db.Integer, nullable=False)
+#     business = db.Column(db.Integer, db.ForeignKey(
+#                     'business.id'), nullable=False)
+#     message = db.Column(db.Text, nullable=False)
+#     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+#
+#     def __repr__(self):
+#         return f"BusinessReviews('{self.name}, {self.message}')"
 
 
 @app.route('/')
@@ -161,7 +173,7 @@ def businesses():
         description = form.business_description.data
         location = form.business_location.data
 
-        business = Business(name=name, category=1,description=description, location=location, user_id=current_user.id,rating=0)
+        business = Business(name=name, category=1,description=description, location=location, user_id=current_user.id, rating=0)
         db.session.add(business)
         db.session.commit()
 
