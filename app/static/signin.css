@@ -90,3 +90,9 @@ nav-scroller {
 .checked {
     color: orange;
 }
+
+
+.post .post-heading .avatar {
+  width: 60px;
+  height: 60px;
+}
