@@ -44,33 +44,133 @@
             <small class="text-light"><b>{{context.business.owner.username|title}}</b></small>
           </div>
         </div>
-          <div class="my-3 p-3 bg-white rounded box-shadow">
+          <div class="bg-white rounded box-shadow">
+
+            <div class="row">
+              <div class="container p-3 d-flex justify-content-center">
+                <div class="col-md-12">
 
 
-            <div class="media text-muted pt-3">
-              <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                <div class="d-flex justify-content-between align-items-center w-100 mb-1">
+                <ul class="list-group list-group-flush">
+                  <button type="button" class="list-group-item list-group-item-action text-light no-border bg-secondary rounded">Business Details</button>
+
+                  <li class="list-group-item text-muted small"><b class="text-info">Category: </b> {{ context.business_category.name }}</li>
+                  <li class="list-group-item text-muted small"><b class="text-info">Location: </b> {{ context.business.location }}</li>
+                  <li class="list-group-item text-muted small"><b class="text-info">Created: </b> {{ context.business.created|humanize }}</li>
+                  <li class="list-group-item text-muted small"><b class="text-info">Description: </b> {{ context.business.description }}</li>
 
 
-                </div>
-
-
-                  <div class="container">
-                    <div class="row">
-                      {% include "comments.html" %}
-                    </div>
-                  </div>
+                </ul>
 
               </div>
             </div>
 
+            </div>
 
-            <small class="d-block text-right mt-3">
-              <!-- <a href="#">All suggestions</a> -->
-            </small>
+
+            <div class="media text-muted ">
+              <div class="media-body mb-0 small lh-125 border-bottom border-gray">
+
+                <div class="container">
+                  <div class="row">
+
+                    <div class="col-md-4">
+
+                <div class="d-flex justify-content-between align-items-center w-100 ">
+                  <form class="form-signin text-center rounded" style="max-width:500px;" method="POST" enctype="multipart/form-data" action="/businesses/{{context.business.id}}/reviews">
+                    {{ context.review_form.hidden_tag() }}
+
+                    <fieldset class="form-group text-left">
+                      <legend class="border-bottom p-2 bg-info rounded mb-2 text-light h5">Add Review</legend>
+
+
+
+                    <div class="form-group">
+                      {{ context.review_form.name.label(class="form-control-label") }}
+
+
+                      {% if context.review_form.name.errors %}
+                        {{ context.review_form.name(class="form-control is-invalid",placeholder="Name") }}
+                        <div class="invalid-feedback">
+
+                          {% for error in context.review_form.name.errors  %}
+                            <span> {{ error }}</span>
+                          {%endfor%}
+
+                        </div>
+                        {% else %}
+
+                        {{ context.review_form.name(class="form-control",placeholder="Name") }}
+
+                      {% endif %}
+
+
+                    </div>
+
+                    <div class="form-group">
+                      {{ context.review_form.rating.label(class="form-control-label") }}
+
+
+                      {% if context.review_form.rating.errors %}
+                        {{ context.review_form.rating(class="form-control is-invalid",placeholder="Rating score (1 - 5)") }}
+                        <div class="invalid-feedback">
+
+                          {% for error in context.review_form.rating.errors  %}
+                            <span> {{ error }}</span>
+                          {%endfor%}
+
+                        </div>
+                        {% else %}
+
+                        {{ context.review_form.rating(class="form-control", type="number", placeholder="Rating score (1 - 5)") }}
+
+                      {% endif %}
+
+
+                    </div>
+
+
+                    <div class="form-group">
+                      {{ context.review_form.message.label(class="form-control-label") }}
+
+
+                      {% if context.review_form.message.errors %}
+                        {{ context.review_form.message(class="form-control is-invalid",placeholder="Review Message") }}
+                        <div class="invalid-feedback">
+
+                          {% for error in context.review_form.message.errors  %}
+                            <span> {{ error }}</span>
+                          {%endfor%}
+
+                        </div>
+                        {% else %}
+
+                        {{ context.review_form.message(class="form-control",placeholder="Review Message",rows="7") }}
+
+                      {% endif %}
+                    </div>
+                    </fieldset>
+                  <div class="form-group ">
+                    {{ context.review_form.submit(class="btn btn-outline-info btn-block") }}
+                  </div>
+                  </form>
+                </div>
+              </div>
+
+                <div class="col-md-8 mt-3">
+
+                      {% include "comments.html" %}
+
+                </div>
+              </div>
+            </div>
+
+
+              </div>
+            </div>
+
           </div>
       </div>
-
 
 
   {% endblock %}

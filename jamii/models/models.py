@@ -25,14 +25,13 @@ class Businesscategory(db.Model):
     name = db.Column(db.String(20), unique=True, nullable=False)
 
     def __repr__(self):
-        return f"Businesscategory('{self.name}')"
-
+        return self.name
 
 class Business(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    rating = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Integer, nullable=False, default=0)
     category = db.Column(db.Integer, db.ForeignKey(
         'businesscategory.id'), nullable=False)
     description = db.Column(db.Text, nullable=False)

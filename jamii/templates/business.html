@@ -55,47 +55,50 @@
               <div class="d-flex justify-content-between align-items-center w-100 mb-1">
                 <span>
                     <h5><strong><a class="text-info" style="text-decoration:none;" href="{{ url_for('BusinessDetail', id=business.id)}}">{{ business.name|title }} </a></strong></h5>
-                    <span class="d-block mb-3"><a href="#" class="text-info"><b><span class="text-muted">By</span> @{{ business.owner.username }}</b></a></span>
+
                     {% if business.rating %}
 
-                      <span >
-                        {% if business.rating == 0 %}
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star checked"></span>
-                        <span class="fa fa-star"></span>
-                        <span class="fa fa-star"></span>
+                      <span>
 
-                        {% endif%}
                         {% if business.rating == 1 %}
+                        <b><span class="h4 checked"> 1.0 </span></b>
+
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star "></span>
                         <span class="fa fa-star "></span>
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
 
-                        {% endif%}{% if business.rating == 2 %}
+                        {% elif business.rating == 2 %}
+                        <b><span class="h4 checked"> 2.0 </span></b>
+
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star "></span>
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
 
-                        {% endif%}{% if business.rating == 3 %}
+                        {% elif business.rating == 3 %}
+                        <b><span class="h4 checked"> 3.0 </span></b>
+
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star"></span>
                         <span class="fa fa-star"></span>
 
-                        {% endif%}{% if business.rating == 4 %}
+                        {% elif business.rating == 4 %}
+                        <b><span class="h4 checked"> 4.0 </span></b>
+
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star"></span>
 
-                        {% endif%}{% if business.rating == 5 %}
+                        {% elif business.rating == 5 %}
+                        <b><span class="h4 checked"> 5.0 </span></b>
+
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>
                         <span class="fa fa-star checked"></span>

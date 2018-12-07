@@ -2,7 +2,7 @@ from flask import render_template, flash, request, redirect, url_for, session, a
 from flask_login import  login_user, logout_user, current_user, login_required
 from PIL import Image
 from flask_sqlalchemy import SQLAlchemy
-from jamii.forms.forms import RegistrationForm, LoginForm, BusinessForm, BusinessCategoryForm, UpdateAccountForm, UpdateBusinessForm
+from jamii.forms.forms import RegistrationForm, LoginForm, BusinessForm, BusinessCategoryForm, UpdateAccountForm, UpdateBusinessForm, BusinessReviewForm
 from jamii import app, db, bcrypt
 from jamii.models.models import User, Business, Businesscategory, BusinessReviews
 import secrets
@@ -100,17 +100,17 @@ def businesses():
     context = {
         'form': form,
         'category_form':category_form,
-        'businesses':14
 
     }
 
     if form.validate_on_submit():
         name = form.business_name.data
         category = form.business_category.data
+        business_category = Businesscategory.query.filter_by(name=str(category)).first()
         description = form.business_description.data
         location = form.business_location.data
 
-        business = Business(name=name, category=1,description=description, location=location, user_id=current_user.id, rating=0)
+        business = Business(name=name, category=business_category.id,description=description, location=location, user_id=current_user.id)
         db.session.add(business)
         db.session.commit()
 
@@ -142,7 +142,6 @@ def dashboard():
 
     context = {
         'account_form':account_form,
-        'business_no':14,
         'businesses':businesses
 
     }
@@ -190,7 +189,9 @@ def category():
 def updateBusiness(id):
     business = Business.query.get_or_404(id)
     business_form = UpdateBusinessForm()
+    business_reviews = BusinessReviews.query.filter_by(business=id)
     context = {
+        'business_reviews':business_reviews,
         'business': business,
         'business_form':business_form,
     }
@@ -199,12 +200,13 @@ def updateBusiness(id):
 
     if business_form.validate_on_submit():
         name = business_form.business_name.data
-        # category = business_form.business_category.data
+        category = business_form.business_category.data
+        business_category = Businesscategory.query.filter_by(name=str(category)).first()
         description = business_form.business_description.data
         location = business_form.business_location.data
 
         business.name=name
-        business.category=1
+        business.category=business_category.id
         business.description=description
         business.location=location
         db.session.commit()
@@ -227,6 +229,9 @@ def deleteBusiness(id):
     business = Business.query.get_or_404(id)
     if business.owner != current_user:
         abort(403)
+
+    db.session.delete(business)
+    db.session.commit()
     flash(f'Successfully Deleted!', 'success')
     return redirect(url_for('login'))
 
@@ -245,8 +250,56 @@ def getBusiness():
 @app.route('/businesses/<int:id>/', methods=['GET', 'POST'])
 def BusinessDetail(id):
     business = Business.query.get_or_404(id)
+    review_form = BusinessReviewForm()
+    business_reviews = BusinessReviews.query.filter_by(business=id)
+    business_category = Businesscategory.query.get_or_404(business.category)
     context = {
+        'review_form':review_form,
         'business': business,
+        'business_reviews':business_reviews,
+        'business_category':business_category
     }
+
+    return render_template('business_details.html', context=context)
+
+@app.route('/businesses/<int:id>/reviews', methods=['GET', 'POST'])
+def BusinessReview(id):
+    business = Business.query.get_or_404(id)
+    review_form = BusinessReviewForm()
+    business_reviews = BusinessReviews.query.filter_by(business=id)
+    context = {
+        'business_reviews':business_reviews,
+        'review_form': review_form,
+        'business':business
+    }
+
+    if review_form.validate_on_submit():
+        name = review_form.name.data
+        message = review_form.message.data
+        rating = review_form.rating.data
+
+        review = BusinessReviews(name=name,rating=rating,message=message,business=id)
+
+        db.session.add(review)
+        db.session.commit()
+        count = 0
+        total_rating = 0
+        business_reviews = BusinessReviews.query.filter_by(business=id)
+        for review in business_reviews:
+            count += 1
+            total_rating += review.rating
+
+        if count != 0:
+            business_rating = total_rating/count
+        else:
+            business_rating = total_rating/1
+
+        business.rating = business_rating
+        db.session.commit()
+
+
+        flash(f'Review successfully Added!', 'success')
+        return redirect(url_for('getBusiness'))
+
 
     return render_template('business_details.html', context=context)
