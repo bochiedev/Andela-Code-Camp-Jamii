@@ -1,0 +1,206 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container text-center">
+  <div class="row">
+    <div class="col-md-4 mt-3">
+      <div class="card p-3" >
+          <img class="card-img-top mx-auto d-block" src="static/media/images/profile_pic/{{current_user.image_file}}" style="max-width:120px; max-height:120px ;" alt="{{current_user.username}}">
+          <div class="card-body">
+            <h5 class="card-title"><b class="text-info">{{ current_user.username | title}}</b></h5>
+          </div>
+          <ul class="list-group list-group-flush text-left">
+            <li class="list-group-item text-muted">
+
+          <form class="form-signin text-left rounded p-0"  method="POST" enctype="multipart/form-data" action="">
+            {{ context.account_form.hidden_tag() }}
+
+            <fieldset class="form-group m-0">
+
+            <div class="form-group">
+              {{ context.account_form.username.label(class="form-control-label") }}
+
+
+              {% if context.account_form.username.errors %}
+                {{ context.account_form.username(class="form-control is-invalid",placeholder="Username") }}
+                <div class="invalid-feedback">
+
+                  {% for error in context.account_form.username.errors  %}
+                    <span> {{ error }}</span>
+                  {%endfor%}
+
+                </div>
+                {% else %}
+
+                {{ context.account_form.username(class="form-control",placeholder="Username" ) }}
+
+              {% endif %}
+
+
+            </div>
+
+            <div class="form-group">
+              {{ context.account_form.email.label(class="form-control-label") }}
+
+
+              {% if context.account_form.email.errors %}
+                {{ context.account_form.email(class="form-control is-invalid",placeholder="Email Address") }}
+                <div class="invalid-feedback">
+
+                  {% for error in context.account_form.email.errors  %}
+                    <span> {{ error }}</span>
+                  {%endfor%}
+
+                </div>
+                {% else %}
+
+                {{ context.account_form.email(class="form-control",placeholder="Email Address") }}
+
+              {% endif %}
+            </div>
+            <div class="form-group">
+              {{ context.account_form.profile.label(class="form-control-label") }}
+
+              {{ context.account_form.profile(class="form-control-file",placeholder="profile" ) }}
+
+              {% if context.account_form.profile.errors %}
+                  {% for error in context.account_form.profile.errors  %}
+                    <span class="text-danger"> {{ error }}</span></br>
+                  {%endfor%}
+
+              {% endif %}
+
+
+            </div>
+
+            </fieldset>
+          <div class="form-group">
+            {{ context.account_form.submit(class="btn btn-outline-info") }}
+          </div>
+          </form>
+        </li>
+          </ul>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+      <div class=" align-items-center p-3 my-3 text-white-50  rounded box-shadow bg-info">
+          <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100 text-left">My Businesses</h6>
+          </div>
+          </div>
+            <div class="my-3 p-3 bg-white rounded box-shadow">
+
+              {% for business in context.businesses %}
+
+              <div class="media text-muted pt-3">
+                <img data-src="holder.js/32x32?theme=thumb&bg=007bff&fg=007bff&size=1" alt="" class="mr-2 rounded">
+                <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                  <div class="d-flex justify-content-between align-items-center w-100 mb-1">
+                    <span class="text-left">
+                        <h5 class="text-left"><strong> <a class="text-info" style="text-decoration:none;" href="{{ url_for('updateBusiness', id=business.id)}}">{{ business.name|title  }} </a></strong></h5>
+                        <small class="d-block mb-2"><b><span class="text-muted">Created </span> {{  business.created |humanize()}}</b></small>
+                        {% if business.rating %}
+                          <span >
+                            {% if business.rating == 0 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+
+                            {% endif%}
+                            {% if business.rating == 1 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+
+                            {% endif%}{% if business.rating == 2 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+
+                            {% endif%}{% if business.rating == 3 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+
+                            {% endif%}{% if business.rating == 4 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+
+                            {% endif%}{% if business.rating == 5 %}
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+
+                            {% endif%}
+                          </span>
+
+                          {% endif%}
+
+                    </span>
+
+
+                    <span class="align-bottom">
+                      <!--  Review Modal start-->
+
+                      <div class="modal fade" tabindex="-1" role="dialog" id="deleteModal">
+                      <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Delete Business</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <h5>Please Confirm delete of <b class="text-info">{{ business.name }}</b></h5>
+
+                      </div>
+                      <div class="modal-footer">
+                        <a href="{{ url_for('deleteBusiness', id=business.id) }}"><button type="button" class="btn btn-danger">Delete</button></a>
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                      </div>
+                      </div>
+                      </div>
+                      </div>
+
+                      <!--  Review Modal end -->
+                       <a href="#"><i class="fa fa-trash text-danger fa-2x" data-toggle="modal" data-target="#deleteModal" aria-hidden="true"></i></a>&nbsp; &nbsp;
+
+                      <a href="{{ url_for('updateBusiness', id = business.id)}}" class="btn btn-outline-info btn-sm <mr-1></mr-1>">Edit Details</a>
+                    </span>
+                  </div>
+
+                </div>
+              </div>
+              {% endfor %}
+
+              <small class="d-block text-right mt-3">
+                <!-- <a href="#">All suggestions</a> -->
+              </small>
+            </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+{% endblock %}

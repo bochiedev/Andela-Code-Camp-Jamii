@@ -1,0 +1,42 @@
+      <header >
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark" >
+        <a class="navbar-brand font-weight-bold text-info" href="{{ url_for('home') }}">Jamii Business</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {% if current_user.is_authenticated %}
+        <div id="navbarNavDropdown" class="navbar-collapse collapse" >
+          <ul class="navbar-nav ml-auto small mr-4">
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ url_for('getBusiness') }}">Business</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ url_for('logout') }}">Log-Out</a>
+            </li>
+          </ul>
+        </div>
+        {% else %}
+        <div id="navbarNavDropdown" class="navbar-collapse collapse" >
+          <ul class="navbar-nav small mr-4 ml-auto">
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ url_for('home') }}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ url_for('getBusiness') }}">Business</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ url_for('login') }}">Login</a>
+            </li>
+            <!--
+            <li class="nav-item">
+              <a class="nav-link text-light" href="{{ url_for('register') }}">Register</a>
+            </li> -->
+          </ul>
+        </div>
+        {% endif %}
+
+      </nav>
+    </header>
