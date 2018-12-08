@@ -2,7 +2,7 @@ from flask import render_template, flash, request, redirect, url_for, session, a
 from flask_login import  login_user, logout_user, current_user, login_required
 from PIL import Image
 from flask_sqlalchemy import SQLAlchemy
-from jamii.forms.forms import RegistrationForm, LoginForm, BusinessForm, BusinessCategoryForm, UpdateAccountForm, UpdateBusinessForm, BusinessReviewForm
+from jamii.forms.forms import RegistrationForm, LoginForm, BusinessForm, BusinessCategoryForm, UpdateAccountForm, UpdateBusinessForm, BusinessReviewForm, SearchBusinessForm
 from jamii import app, db, bcrypt
 from jamii.models.models import User, Business, Businesscategory, BusinessReviews
 import secrets
@@ -267,6 +267,47 @@ def BusinessReview(id):
     business = Business.query.get_or_404(id)
     review_form = BusinessReviewForm()
     business_reviews = BusinessReviews.query.filter_by(business=id)
+    context = {
+        'business_reviews':business_reviews,
+        'review_form': review_form,
+        'business':business
+    }
+
+    if review_form.validate_on_submit():
+        name = review_form.name.data
+        message = review_form.message.data
+        rating = review_form.rating.data
+
+        review = BusinessReviews(name=name,rating=rating,message=message,business=id)
+
+        db.session.add(review)
+        db.session.commit()
+        count = 0
+        total_rating = 0
+        business_reviews = BusinessReviews.query.filter_by(business=id)
+        for review in business_reviews:
+            count += 1
+            total_rating += review.rating
+
+        if count != 0:
+            business_rating = total_rating/count
+        else:
+            business_rating = total_rating/1
+
+        business.rating = business_rating
+        db.session.commit()
+
+
+        flash(f'Review successfully Added!', 'success')
+        return redirect(url_for('getBusiness'))
+
+
+    return render_template('business_details.html', context=context)
+
+@app.route('/businesses/search', methods=['GET', 'POST'])
+def BusinessSearch():
+    business = Business.query.get_or_404(id)
+    search_form = SearchBusinessForm()
     context = {
         'business_reviews':business_reviews,
         'review_form': review_form,

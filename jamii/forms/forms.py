@@ -101,3 +101,15 @@ class BusinessReviewForm(FlaskForm):
 
         if rating.data > 5:
             raise ValidationError('Rating Must Be between 1 and 5')
+
+class SearchBusinessForm(FlaskForm):
+    def category_data():
+        data = Businesscategory.query.all()
+        return data
+
+    business_name = StringField('Business Name', validators=[DataRequired()])
+    business_location = StringField('Location', validators=[DataRequired()])
+    business_category = QuerySelectField(u'Skill level',
+                               validators=[DataRequired()],
+                               query_factory=category_data)
+    submit = SubmitField('Update')
