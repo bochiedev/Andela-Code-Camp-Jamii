@@ -18,36 +18,150 @@
       </p>
     </div>
   </section>
+  <div class="container">
+    <div class="row d-flex justify-content-center mb-5">
+      <div class="col-md-10">
+      <form  method="POST" enctype="multipart/form-data" action="/businesses/search">
+        {{ context.search_form.hidden_tag() }}
+        <div class="form-row">
+          <div class="col">
+
+            {{ context.search_form.business_name.label(class="form-control-label text-muted") }}
+
+            {% if context.search_form.business_name.errors %}
+              {{ context.search_form.business_name(class="form-control is-invalid",placeholder="Name") }}
+              <div class="invalid-feedback">
+
+                {% for error in context.search_form.business_name.errors  %}
+                  <span> {{ error }}</span>
+                {%endfor%}
+
+              </div>
+              {% else %}
+
+              {{ context.search_form.business_name(class="form-control",placeholder="Name") }}
+
+            {% endif %}
+          </div>
+          <div class="col">
+
+            {{ context.search_form.business_location.label(class="form-control-label text-muted") }}
+
+            {% if context.search_form.business_location.errors %}
+              {{ context.search_form.business_location(class="form-control is-invalid",placeholder="Location") }}
+              <div class="invalid-feedback">
+
+                {% for error in context.search_form.business_location.errors  %}
+                  <span> {{ error }}</span>
+                {%endfor%}
+
+              </div>
+              {% else %}
+
+              {{ context.search_form.business_location(class="form-control",placeholder="Location") }}
+
+            {% endif %}
+          </div>
+          <div class="col">
+
+            {{ context.search_form.business_category.label(class="form-control-label text-muted") }}
+
+
+            {% if context.search_form.business_category.errors %}
+              {{ context.search_form.business_category(class="form-control is-invalid") }}
+              <div class="invalid-feedback">
+
+                {% for error in context.search_form.business_category.errors  %}
+                  <span> {{ error }}</span>
+                {%endfor%}
+
+              </div>
+              {% else %}
+
+              {{ context.search_form.business_category(class="form-control") }}
+
+            {% endif %}
+          </div>
+        </div>
+        <div class="col mt-3 p-0">
+          {{ context.search_form.submit(class="btn btn-info btn-block") }}
+        </div>
+      </form>
+    </div>
+    </div>
+  </div>
   <div class="d-flex justify-content-between container">
 
     <div class="row text-left">
-  <div class="col-sm-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title font-weight-bold text-info">We Deliver</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-info">Go somewhere</a>
+
+
+      {% for business in context.businesses %}
+      <div class="col-sm-4 mb-3">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title font-weight-bold text-info">{{ business.name|title }}</h5>
+            {% if business.rating %}
+
+              <span class="small">
+
+                {% if business.rating == 1 %}
+                <b><span class="h4 checked"> 1.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif business.rating == 2 %}
+                <b><span class="h4 checked"> 2.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif business.rating == 3 %}
+                <b><span class="h4 checked"> 3.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif business.rating == 4 %}
+                <b><span class="h4 checked"> 4.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif business.rating == 5 %}
+                <b><span class="h4 checked"> 5.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+
+
+                {% endif%}
+              </span>
+
+              {% endif%}
+            <p class="card-text small text-muted mt-2">{{ business.description }}</p>
+          </div>
+          <div class="card-footer bg-light">
+            <a href="{{ url_for('BusinessDetail', id=business.id) }}" class="btn btn-info btn-sm">View More</a>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title font-weight-bold text-info">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-info">Go somewhere</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-4">
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title font-weight-bold text-info">Special title treatment</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-info">Go somewhere</a>
-      </div>
-    </div>
-  </div>
+    {% endfor %}
 </div>
   </div>
 

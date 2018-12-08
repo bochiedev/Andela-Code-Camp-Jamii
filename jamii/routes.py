@@ -13,8 +13,13 @@ import os
 @app.route('/')
 @app.route('/home')
 def home():
+    search_form = SearchBusinessForm()
+    businesses = Business.query.all()
+
     context = {
         'title': "Welcome",
+        'search_form':search_form,
+        'businesses':businesses
     }
     return render_template("home.html", context=context)
 
@@ -214,7 +219,7 @@ def updateBusiness(id):
         return redirect(url_for('getBusiness'))
     elif request.method == "GET":
         business_form.business_name.data = business.name
-        business_form.business_category.data = business.category
+        business_form.business_category.default = business.category
         business_form.business_description.data = business.description
         business_form.business_location.data = business.location
 
@@ -299,48 +304,35 @@ def BusinessReview(id):
 
 
         flash(f'Review successfully Added!', 'success')
-        return redirect(url_for('getBusiness'))
+        return redirect(url_for('home'))
 
 
     return render_template('business_details.html', context=context)
 
 @app.route('/businesses/search', methods=['GET', 'POST'])
 def BusinessSearch():
-    business = Business.query.get_or_404(id)
     search_form = SearchBusinessForm()
-    context = {
-        'business_reviews':business_reviews,
-        'review_form': review_form,
-        'business':business
-    }
 
-    if review_form.validate_on_submit():
-        name = review_form.name.data
-        message = review_form.message.data
-        rating = review_form.rating.data
-
-        review = BusinessReviews(name=name,rating=rating,message=message,business=id)
-
-        db.session.add(review)
-        db.session.commit()
-        count = 0
-        total_rating = 0
-        business_reviews = BusinessReviews.query.filter_by(business=id)
-        for review in business_reviews:
-            count += 1
-            total_rating += review.rating
-
-        if count != 0:
-            business_rating = total_rating/count
+    if search_form.validate_on_submit():
+        name = request.args.get('name')
+        location = request.args.get('location')
+        category = request.args.get('category')
+        businesses = Business.query.filter_by(name=name, category=str(category),location=location)
+        if businesses:
+            context = {
+                'businesses':businesses,
+                'search_form': search_form,
+                }
+            # flash(f'Matching Business! {businesses}', 'info')
+            return redirect(url_for('home'))
         else:
-            business_rating = total_rating/1
-
-        business.rating = business_rating
-        db.session.commit()
-
-
-        flash(f'Review successfully Added!', 'success')
-        return redirect(url_for('getBusiness'))
+            context = {
+            'businesses':businesses,
+            'search_form': search_form,
+            }
+            flash(f'No Matching Business! {businesses}', 'info')
+            return redirect(url_for('home'))
 
 
-    return render_template('business_details.html', context=context)
+
+    return render_template('home.html', context=context)

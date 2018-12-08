@@ -107,9 +107,7 @@ class SearchBusinessForm(FlaskForm):
         data = Businesscategory.query.all()
         return data
 
-    business_name = StringField('Business Name', validators=[DataRequired()])
-    business_location = StringField('Location', validators=[DataRequired()])
-    business_category = QuerySelectField(u'Skill level',
-                               validators=[DataRequired()],
-                               query_factory=category_data)
-    submit = SubmitField('Update')
+    business_name = StringField('Business Name')
+    business_location = StringField('Location')
+    business_category = QuerySelectField(u'Skill level',query_factory=category_data)
+    submit = SubmitField('Filter')
