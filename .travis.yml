@@ -13,6 +13,7 @@ install:
 
 script:
   - nosetests
+  - coveralls
 
 # notifications:
 #   email:
@@ -21,5 +22,4 @@ script:
 #     on_success: always # default: change
 #     on_failure: always # default: always
 
-after_success:
-  - coveralls
+# after_success:
