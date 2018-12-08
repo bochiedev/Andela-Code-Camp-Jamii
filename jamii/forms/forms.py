@@ -62,13 +62,8 @@ class BusinessForm(FlaskForm):
     business_category = QuerySelectField(u'Skill level',
                                validators=[DataRequired()],
                                query_factory=category_data)
-    # business_category = SelectField(u'Category', choices=list(category_data()), validators=[DataRequired()])
     submit = SubmitField('Create')
 
-    # def category_data(self):
-    #     data = BusinessCategory.query.all()
-    #     business_category.choices = data
-    #     return data
 
 class UpdateBusinessForm(FlaskForm):
 
@@ -79,7 +74,6 @@ class UpdateBusinessForm(FlaskForm):
     business_name = StringField('Business Name', validators=[DataRequired()])
     business_description = TextAreaField('Business Description', validators=[DataRequired()])
     business_location = StringField('Location', validators=[DataRequired()])
-    # business_category = SelectField(u'Category', choices=list(category_data()), validators=[DataRequired()])
     business_category = QuerySelectField(u'Skill level',
                                validators=[DataRequired()],
                                query_factory=category_data)
@@ -90,6 +84,11 @@ class UpdateBusinessForm(FlaskForm):
 class BusinessCategoryForm(FlaskForm):
     category_name = StringField('Category Name', validators=[DataRequired()])
     submit = SubmitField('Create')
+
+    def validate_category_name(self, category_name):
+        category = Businesscategory.query.filter_by(name=category_name.data).first()
+        if category:
+            raise ValidationError('Category Exists!')
 
 class BusinessReviewForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
