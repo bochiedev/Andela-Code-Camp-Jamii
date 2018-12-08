@@ -1,1 +1,1 @@
-web: gunicorn Jamii:jamii
+web: gunicorn run:app
