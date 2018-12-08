@@ -283,13 +283,13 @@ def BusinessReview(id):
         message = review_form.message.data
         rating = review_form.rating.data
 
-        review = BusinessReviews(name=name,rating=rating,message=message,business=id)
+        review = BusinessReviews(name=name,rating=rating,message=message,business=business.id)
 
         db.session.add(review)
         db.session.commit()
         count = 0
         total_rating = 0
-        business_reviews = BusinessReviews.query.filter_by(business=id)
+        business_reviews = BusinessReviews.query.filter_by(business=business.id)
         for review in business_reviews:
             count += 1
             total_rating += review.rating
