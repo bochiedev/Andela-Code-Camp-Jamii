@@ -1,0 +1,74 @@
+<div class="post">
+    <div class="post-heading">
+        <h5 class="shadow-sm p-2 bg-info rounded text-light" >Reviews</h5>
+        {% for review in context.business_reviews %}
+
+        <div class="col-md-12 col-sm-12 col-lg-12  border-bottom border-muted">
+            <div class="title h6 mt-1">
+                <a href="#" class="text-dark" style="text-decoration:none; font-size:12px;"><b> {{ review.name }}</b></a>
+            </div>
+            <p class="mb-2"><small ><b>{{ review.created | humanize() }}</b> </small></p>
+            <div class="mb-2">
+            {% if review.rating %}
+
+              <span>
+
+                {% if review.rating == 1 %}
+                <b><span class="h4 checked"> 1.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif review.rating == 2 %}
+                <b><span class="h4 checked"> 2.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star "></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif review.rating == 3 %}
+                <b><span class="h4 checked"> 3.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif review.rating == 4 %}
+                <b><span class="h4 checked"> 4.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+
+                {% elif review.rating == 5 %}
+                <b><span class="h4 checked"> 5.0 </span></b>
+
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+
+                {% endif%}
+              </span>
+
+              {% endif%}
+
+          </div>
+            <p>{{ review.message }}</p>
+        </div>
+
+
+
+        {% endfor %}
+    </div>
+</div>

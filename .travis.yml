@@ -13,10 +13,13 @@ install:
 
 script:
   - nosetests
+  - coveralls
 
-notifications:
-  email:
-    recipients:
-      - bochiegfx@gmail.com
-    on_success: always # default: change
-    on_failure: always # default: always
+# notifications:
+#   email:
+#     recipients:
+#       - bochiegfx@gmail.com
+#     on_success: always # default: change
+#     on_failure: always # default: always
+
+# after_success:
