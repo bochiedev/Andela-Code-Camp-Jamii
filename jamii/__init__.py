@@ -11,8 +11,8 @@ from flask_humanize import Humanize
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:jamohsize@localhost/jamii_business'
-# app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URL')
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:jamohsize@localhost/jamii_business'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('SQLALCHEMY_DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['HUMANIZE_USE_UTC'] = True
 db = SQLAlchemy(app)
