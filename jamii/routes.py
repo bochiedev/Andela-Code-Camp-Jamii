@@ -219,7 +219,7 @@ def updateBusiness(id):
         return redirect(url_for('getBusiness'))
     elif request.method == "GET":
         business_form.business_name.data = business.name
-        business_form.business_category.data = business.category
+        business_form.business_category.default = business.category
         business_form.business_description.data = business.description
         business_form.business_location.data = business.location
 
@@ -304,7 +304,7 @@ def BusinessReview(id):
 
 
         flash(f'Review successfully Added!', 'success')
-        return redirect(url_for('getBusiness'))
+        return redirect(url_for('home'))
 
 
     return render_template('business_details.html', context=context)
