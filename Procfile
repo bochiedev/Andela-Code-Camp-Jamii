@@ -1,1 +1,1 @@
-web: gunicorn jamii:jamii
+web: gunicorn Jamii:Jamii
