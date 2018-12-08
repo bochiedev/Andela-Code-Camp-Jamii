@@ -37,6 +37,7 @@ class Business(db.Model):
     description = db.Column(db.Text, nullable=False)
     location = db.Column(db.String(50), nullable=False)
     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    review = db.relationship("BusinessReviews", cascade="all,delete,delete-orphan", backref="reviews")
 
     def __repr__(self):
         return f"Business('{self.name}, {self.owner}, {self.location}')"
@@ -49,6 +50,7 @@ class BusinessReviews(db.Model):
                     'business.id'), nullable=False)
     message = db.Column(db.Text, nullable=False)
     created = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 
     def __repr__(self):
         return f"BusinessReviews('{self.name}, {self.message}')"
