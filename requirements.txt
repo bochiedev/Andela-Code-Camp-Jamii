@@ -24,7 +24,7 @@ gunicorn==19.9.0
 humanize==0.5.1
 idna==2.7
 itsdangerous==1.1.0
-Jinja2==2.10
+Jinja2==2.11.3
 locustio==0.9.0
 Mako==1.0.7
 MarkupSafe==1.1.0
